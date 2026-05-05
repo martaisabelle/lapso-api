@@ -1,5 +1,5 @@
-// Aula 8: módulos ES — import/export
-// Aula 9: HTTP — separação entre configuração (app.js) e inicialização (server.js)
+// Aula 8: módulos ES
+// Aula 9: separação entre configuração (app.js) e inicialização (server.js)
 import app from './app.js';
 
 const PORT = 3000;
