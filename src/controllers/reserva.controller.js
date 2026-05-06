@@ -1,17 +1,22 @@
 // Aula 12: Controller — lógica separada das rotas
-// Dados em memória por enquanto
-
-const reservas = [];
+// Aula 14: persistência com lowdb
+import db from '../config/database.js';
 
 // GET /api/reservas
 export const listarReservas = (req, res) => {
-  res.status(200).json(reservas);
+  const { status } = req.query;
+
+  const resultado = status
+    ? db.data.reservas.filter((r) => r.status === status)
+    : db.data.reservas;
+
+  res.status(200).json(resultado);
 };
 
 // GET /api/reservas/:id
 export const buscarReservaPorId = (req, res) => {
   const id = parseInt(req.params.id);
-  const reserva = reservas.find((r) => r.id === id);
+  const reserva = db.data.reservas.find((r) => r.id === id);
 
   if (!reserva) {
     return res.status(404).json({ mensagem: 'Reserva não encontrada.' });
@@ -21,40 +26,70 @@ export const buscarReservaPorId = (req, res) => {
 };
 
 // POST /api/reservas
-export const criarReserva = (req, res) => {
+export const criarReserva = async (req, res) => {
+  const { menuId } = req.body;
+
+  // Verifica se o menu existe
+  const menu = db.data.menus.find((m) => m.id === parseInt(menuId));
+  if (!menu) {
+    return res.status(404).json({ mensagem: 'Menu não encontrado. Verifique o menuId informado.' });
+  }
+
+  // Calcula o valor total automaticamente
+  const valorTotal = req.body.harmonizacao && menu.precoHarmonizacao
+    ? menu.precoHarmonizacao * req.body.numeroPessoas
+    : menu.preco * req.body.numeroPessoas;
+
   const novaReserva = {
-    id: reservas.length + 1,
+    id: db.data.reservas.length + 1,
     ...req.body,
+    menuId: parseInt(menuId),
+    nomeMenu: menu.nome,
+    tipoMenu: menu.tipo,
+    harmonizacao: req.body.harmonizacao || false,
+    restricoes: req.body.restricoes || null,
+    valorTotal,
     status: 'confirmada',
     criadaEm: new Date().toISOString(),
   };
 
-  reservas.push(novaReserva);
+  db.data.reservas.push(novaReserva);
+  await db.write();
+
   res.status(201).json(novaReserva);
 };
 
 // PUT /api/reservas/:id
-export const atualizarReserva = (req, res) => {
+export const atualizarReserva = async (req, res) => {
   const id = parseInt(req.params.id);
-  const index = reservas.findIndex((r) => r.id === id);
+  const index = db.data.reservas.findIndex((r) => r.id === id);
 
   if (index === -1) {
     return res.status(404).json({ mensagem: 'Reserva não encontrada.' });
   }
 
-  reservas[index] = { ...reservas[index], ...req.body, id };
-  res.status(200).json(reservas[index]);
+  db.data.reservas[index] = {
+    ...db.data.reservas[index],
+    ...req.body,
+    id,
+    atualizadaEm: new Date().toISOString(),
+  };
+
+  await db.write();
+  res.status(200).json(db.data.reservas[index]);
 };
 
 // DELETE /api/reservas/:id
-export const deletarReserva = (req, res) => {
+export const deletarReserva = async (req, res) => {
   const id = parseInt(req.params.id);
-  const index = reservas.findIndex((r) => r.id === id);
+  const index = db.data.reservas.findIndex((r) => r.id === id);
 
   if (index === -1) {
     return res.status(404).json({ mensagem: 'Reserva não encontrada.' });
   }
 
-  reservas.splice(index, 1);
+  db.data.reservas.splice(index, 1);
+  await db.write();
+
   res.status(200).json({ mensagem: 'Reserva cancelada com sucesso.' });
 };

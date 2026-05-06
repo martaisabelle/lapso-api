@@ -1,0 +1,63 @@
+{
+  "menus": [
+    {
+      "id": 1,
+      "tipo": "degustacao",
+      "nome": "Lapso de Cerrado",
+      "tema": "Imersão na biodiversidade do Cerrado — o bioma mais ameaçado e menos celebrado do Brasil",
+      "chef": "Dante D'Ávila",
+      "numeroCursos": 13,
+      "duracaoEstimadaMinutos": 210,
+      "preco": 980,
+      "precoHarmonizacao": 1650,
+      "temporada": "inverno",
+      "ativo": true,
+      "restricoesDisponiveis": ["vegetariano", "sem glúten"],
+      "etapas": [
+        { "numero": 1, "tipo": "snack", "prato": "Bola de pequi com queijo canastra curado" },
+        { "numero": 2, "tipo": "snack", "prato": "Folha de ora-pro-nóbis, creme de mandioca defumada" },
+        { "numero": 3, "tipo": "amuse bouche", "prato": "Caldo de ossobuco com cumaru, servido em cuia" },
+        { "numero": 4, "tipo": "entrada fria", "prato": "Tartare de coração de palmito, geleia de baru e capim-limão" },
+        { "numero": 5, "tipo": "entrada fria", "prato": "Ceviche de pirarucu, leite de castanha-do-pará, tucupi amarelo" },
+        { "numero": 6, "tipo": "entrada quente", "prato": "Nhoque de mandioquinha, ragù de pato do pantanal, jus de hibisco" },
+        { "numero": 7, "tipo": "entrada quente", "prato": "Ovo caipira 63°C, farofa de castanha, espuma de queijo coalho" },
+        { "numero": 8, "tipo": "prato principal", "prato": "Filé de pintado grelhado, purê de batata-doce roxa, vinagrete de jambu" },
+        { "numero": 9, "tipo": "prato principal", "prato": "Paleta de cordeiro do sertão, molho de tamarindo, farofa de biju" },
+        { "numero": 10, "tipo": "transição", "prato": "Granita de caju com espuma de cachaça envelhecida" },
+        { "numero": 11, "tipo": "sobremesa", "prato": "Mousse de cupuaçu, calda de açaí, crumble de tapioca" },
+        { "numero": 12, "tipo": "sobremesa", "prato": "Sorvete de cajá, suspiro de rapadura, flor de maracujá" },
+        { "numero": 13, "tipo": "petit fours", "prato": "Bala de cajuína / Trufa de cacau nativo / Cocada de maracujá" }
+      ],
+      "horarios": {
+        "almoco": { "disponivel": false },
+        "jantar": { "disponivel": true, "inicio": "19:00", "fim": "23:00" }
+      },
+      "criadoEm": "2026-01-15T10:00:00.000Z"
+    },
+    {
+      "id": 2,
+      "tipo": "executivo",
+      "nome": "Raiz",
+      "tema": "Releitura da refeição mais brasileira de todas — arroz, feijão e o que a terra dá",
+      "chef": "Dante D'Ávila",
+      "numeroCursos": 3,
+      "duracaoEstimadaMinutos": 60,
+      "preco": 195,
+      "precoHarmonizacao": null,
+      "temporada": "ano todo",
+      "ativo": true,
+      "restricoesDisponiveis": ["vegetariano"],
+      "etapas": [
+        { "numero": 1, "tipo": "entrada", "prato": "Sopa do dia + pão de queijo de forno" },
+        { "numero": 2, "tipo": "prato principal", "prato": "Arroz branco + feijão tropeiro com linguiça artesanal + proteína à escolha (frango caipira / peixe do dia / filé de alcatra) + 2 acompanhamentos do dia" },
+        { "numero": 3, "tipo": "sobremesa", "prato": "Doce da casa + café coado na hora" }
+      ],
+      "horarios": {
+        "almoco": { "disponivel": true, "inicio": "12:00", "fim": "15:00", "diasSemana": ["segunda", "terça", "quarta", "quinta", "sexta"] },
+        "jantar": { "disponivel": false }
+      },
+      "criadoEm": "2026-01-15T10:00:00.000Z"
+    }
+  ],
+  "reservas": []
+}

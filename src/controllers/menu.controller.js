@@ -1,40 +1,25 @@
-// Aula 12: Controller — separa a lógica de negócio das rotas (SoC)
-// Aula 3: arrow functions, find, findIndex, filter, splice
-// Aula 5: spread operator, objetos literais
-// Dados em memória por enquanto — banco de dados entra na aula 14
-
-const menus = [
-  {
-    id: 1,
-    tipo: 'degustacao',
-    nome: 'Lapso de Cerrado',
-    tema: 'Imersão na biodiversidade do Cerrado — o bioma mais ameaçado e menos celebrado do Brasil',
-    numeroCursos: 13,
-    preco: 980,
-    precoHarmonizacao: 1650,
-    temporada: 'inverno',
-  },
-  {
-    id: 2,
-    tipo: 'executivo',
-    nome: 'Raiz',
-    tema: 'Releitura da refeição mais brasileira de todas — arroz, feijão e o que a terra dá',
-    numeroCursos: 3,
-    preco: 195,
-    precoHarmonizacao: null,
-    temporada: 'ano todo',
-  },
-];
+// Aula 12: Controller — lógica separada das rotas
+// Aula 14: persistência com lowdb — dados salvos no db.json
+import db from '../config/database.js';
 
 // GET /api/menus
 export const listarMenus = (req, res) => {
-  res.status(200).json(menus);
+  const { tipo } = req.query;
+
+  // Aula 3: filter — higher-order function
+  const resultado = tipo
+    ? db.data.menus.filter((m) => m.tipo === tipo)
+    : db.data.menus;
+
+  res.status(200).json(resultado);
 };
 
 // GET /api/menus/:id
 export const buscarMenuPorId = (req, res) => {
   const id = parseInt(req.params.id);
-  const menu = menus.find((m) => m.id === id);
+
+  // Aula 3: find — higher-order function
+  const menu = db.data.menus.find((m) => m.id === id);
 
   if (!menu) {
     return res.status(404).json({ mensagem: 'Menu não encontrado.' });
@@ -44,38 +29,55 @@ export const buscarMenuPorId = (req, res) => {
 };
 
 // POST /api/menus
-export const criarMenu = (req, res) => {
+export const criarMenu = async (req, res) => {
+  // Aula 5: spread operator
   const novoMenu = {
-    id: menus.length + 1,
+    id: db.data.menus.length + 1,
     ...req.body,
+    chef: "Dante D'Ávila",
+    ativo: req.body.ativo !== undefined ? req.body.ativo : true,
+    criadoEm: new Date().toISOString(),
   };
 
-  menus.push(novoMenu);
+  // Aula 14: push no array + write salva no db.json
+  db.data.menus.push(novoMenu);
+  await db.write();
+
   res.status(201).json(novoMenu);
 };
 
 // PUT /api/menus/:id
-export const atualizarMenu = (req, res) => {
+export const atualizarMenu = async (req, res) => {
   const id = parseInt(req.params.id);
-  const index = menus.findIndex((m) => m.id === id);
+  const index = db.data.menus.findIndex((m) => m.id === id);
 
   if (index === -1) {
     return res.status(404).json({ mensagem: 'Menu não encontrado.' });
   }
 
-  menus[index] = { ...menus[index], ...req.body, id };
-  res.status(200).json(menus[index]);
+  db.data.menus[index] = {
+    ...db.data.menus[index],
+    ...req.body,
+    id,
+    atualizadoEm: new Date().toISOString(),
+  };
+
+  await db.write();
+  res.status(200).json(db.data.menus[index]);
 };
 
 // DELETE /api/menus/:id
-export const deletarMenu = (req, res) => {
+export const deletarMenu = async (req, res) => {
   const id = parseInt(req.params.id);
-  const index = menus.findIndex((m) => m.id === id);
+  const index = db.data.menus.findIndex((m) => m.id === id);
 
   if (index === -1) {
     return res.status(404).json({ mensagem: 'Menu não encontrado.' });
   }
 
-  menus.splice(index, 1);
+  // Aula 3: splice — remove elemento do array
+  db.data.menus.splice(index, 1);
+  await db.write();
+
   res.status(200).json({ mensagem: 'Menu removido com sucesso.' });
 };
