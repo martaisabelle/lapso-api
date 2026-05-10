@@ -1,0 +1,36 @@
+extends layouts/main.pug
+
+block content
+  section
+    h2 Reservas
+
+    if reservas.length > 0
+      each reserva in reservas
+        div.reserva-card
+          div.reserva-topo
+            span.status(class=reserva.status === 'confirmada' ? 'confirmada' : 'cancelada')= reserva.status
+            span.reserva-id= 'Reserva ' + reserva.id
+          h3= reserva.nomeCliente
+          p
+            strong Menu:
+            |  
+            span= reserva.nomeMenu
+          p
+            strong Data:
+            |  
+            span= reserva.data + ' as ' + reserva.horario
+          p
+            strong Pessoas:
+            |  
+            span= reserva.numeroPessoas
+          if reserva.harmonizacao
+            p.harmonizacao Com harmonizacao de vinhos
+          if reserva.restricoes
+            p
+              strong Restricoes:
+              |  
+              span= reserva.restricoes
+          p.total
+            strong= 'R$ ' + reserva.valorTotal.toLocaleString('pt-BR')
+    else
+      p.vazio Nenhuma reserva registrada.

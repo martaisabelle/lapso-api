@@ -1,0 +1,37 @@
+extends layouts/main.pug
+
+block content
+  section
+    h2 Cardápio
+
+    if menus.length > 0
+      each menu in menus
+        div.menu-card
+          div.menu-card-topo
+            span.menu-tipo= menu.tipo === 'degustacao' ? 'Menu Degustação' : 'Menu Executivo'
+            span.menu-temporada= menu.temporada
+          h3= menu.nome
+          p.menu-tema= menu.tema
+          div.menu-meta
+            span= menu.numeroCursos + ' cursos'
+            if menu.duracaoEstimadaMinutos
+              span= menu.duracaoEstimadaMinutos + ' min'
+          div.menu-preco
+            p
+              | R$ 
+              strong= menu.preco.toLocaleString('pt-BR')
+              |  por pessoa
+            if menu.precoHarmonizacao
+              p.harmonizacao
+                | Com harmonização: R$ 
+                strong= menu.precoHarmonizacao.toLocaleString('pt-BR')
+          if menu.etapas && menu.etapas.length > 0
+            details
+              summary Ver etapas
+              ol
+                each etapa in menu.etapas
+                  li
+                    span.etapa-tipo= etapa.tipo
+                    span= etapa.prato
+    else
+      p.vazio Nenhum menu disponivel no momento.

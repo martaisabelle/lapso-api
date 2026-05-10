@@ -1,0 +1,283 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --preto: #111110;
+  --branco: #f5f3ef;
+  --cinza: #8a8880;
+  --borda: #d8d5cf;
+  --verde: #2a4a35;
+  --dourado: #7a5c1e;
+}
+
+body {
+  background: var(--branco);
+  color: var(--preto);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+  line-height: 1.7;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+
+header {
+  background: var(--preto);
+  color: var(--branco);
+  text-align: center;
+  padding: 3rem 2rem 2.5rem;
+  border-bottom: 1px solid #2a2a28;
+}
+
+header h1 {
+  font-size: 2.8rem;
+  font-weight: normal;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  margin: 0.4rem 0;
+}
+
+.header-sub {
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+/* MAIN */
+
+main {
+  flex: 1;
+  max-width: 860px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+section h2 {
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+/* MENU CARD */
+
+.menu-card {
+  margin-bottom: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.menu-card:last-child {
+  border-bottom: none;
+}
+
+.menu-card-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.menu-tipo {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--verde);
+}
+
+.menu-temporada {
+  font-size: 0.68rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.menu-card h3 {
+  font-size: 1.8rem;
+  font-weight: normal;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.menu-tema {
+  color: var(--cinza);
+  font-style: italic;
+  font-size: 0.92rem;
+  margin-bottom: 1.25rem;
+  max-width: 560px;
+}
+
+.menu-meta {
+  display: flex;
+  gap: 2rem;
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  margin-bottom: 1.25rem;
+}
+
+.menu-preco {
+  margin-bottom: 1.5rem;
+}
+
+.menu-preco p {
+  font-size: 0.92rem;
+  color: var(--preto);
+}
+
+.menu-preco strong {
+  font-size: 1.1rem;
+}
+
+.harmonizacao {
+  font-size: 0.82rem;
+  color: var(--dourado);
+  margin-top: 0.2rem;
+}
+
+/* ETAPAS */
+
+details {
+  border-top: 1px solid var(--borda);
+  padding-top: 1rem;
+}
+
+details summary {
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  cursor: pointer;
+  margin-bottom: 1rem;
+  list-style: none;
+}
+
+details summary::-webkit-details-marker {
+  display: none;
+}
+
+details ol {
+  list-style: none;
+  padding: 0;
+}
+
+details ol li {
+  display: flex;
+  gap: 1.5rem;
+  font-size: 0.88rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--borda);
+}
+
+details ol li:last-child {
+  border-bottom: none;
+}
+
+.etapa-tipo {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  min-width: 110px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+/* RESERVA CARD */
+
+.reserva-card {
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--borda);
+}
+
+.reserva-card:last-child {
+  border-bottom: none;
+}
+
+.reserva-topo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.status {
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  border: 1px solid;
+}
+
+.confirmada {
+  color: var(--verde);
+  border-color: var(--verde);
+}
+
+.cancelada {
+  color: #7a1e1e;
+  border-color: #7a1e1e;
+}
+
+.reserva-id {
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--cinza);
+}
+
+.reserva-card h3 {
+  font-size: 1.4rem;
+  font-weight: normal;
+  margin-bottom: 0.75rem;
+}
+
+.reserva-card p {
+  font-size: 0.88rem;
+  color: var(--cinza);
+  margin-bottom: 0.2rem;
+}
+
+.reserva-card p strong {
+  color: var(--preto);
+}
+
+.total {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  color: var(--preto);
+}
+
+/* VAZIO */
+
+.vazio {
+  color: var(--cinza);
+  font-style: italic;
+  text-align: center;
+  padding: 4rem 0;
+  font-size: 0.92rem;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cinza);
+  border-top: 1px solid var(--borda);
+}
