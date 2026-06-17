@@ -1,9 +1,14 @@
 // Aula 8: módulos ES
 // Aula 9: separação entre configuração (app.js) e inicialização (server.js)
-import app from './app.js';
+// Aula 21: conecta ao MongoDB antes de iniciar o servidor
+import 'dotenv/config';
+import app from './src/app.js';
+import connectDB from './src/config/database.js';
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-  console.log(`🍃 Lapso API rodando em http://localhost:${PORT}`);
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`Lapso API rodando em http://localhost:${PORT}`);
+  });
 });
