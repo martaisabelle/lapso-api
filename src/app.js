@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import menusRouter from './routes/menu.routes.js';
 import reservasRouter from './routes/reserva.routes.js';
 import webRouter from './routes/web.routes.js';
+import authRouter from './routes/auth.routes.js';
 import { globalErrorHandler } from './middlewares/error.middleware.js';
 
 // Aula 18: necessário para obter __dirname em ES Modules
@@ -36,6 +37,7 @@ app.get('/', (req, res) => {
 });
 
 // Rotas da API (JSON)
+app.use('/api/auth', authRouter);
 app.use('/api/menus', menusRouter);
 app.use('/api/reservas', reservasRouter);
 
