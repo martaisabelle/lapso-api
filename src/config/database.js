@@ -1,15 +1,17 @@
-// Aula 14: persistência com lowdb
-// Aula 7: top-level await habilitado pelo "type": "module" no package.json
-import { Low } from 'lowdb';
-import { JSONFile } from 'lowdb/node';
+// Aula 21: conexão com MongoDB Atlas usando Mongoose
+import mongoose from 'mongoose';
+import 'dotenv/config';
 
-// Estrutura padrão do banco — garante que as coleções existam
-const defaultData = { menus: [], reservas: [] };
+const connectDB = async () => {
+  try {
+    await mongoose.connect(process.env.MONGO_URI, {
+      dbName: 'lapso',
+    });
+    console.log('Conectado ao MongoDB Atlas com sucesso.');
+  } catch (error) {
+    console.error('Falha ao conectar ao MongoDB Atlas', error);
+    process.exit(1);
+  }
+};
 
-const adapter = new JSONFile('db.json');
-const db = new Low(adapter, defaultData);
-
-// Lê o arquivo db.json ao inicializar o servidor
-await db.read();
-
-export default db;
+export default connectDB;
