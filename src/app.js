@@ -1,6 +1,8 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSpec from './config/swagger.js';
 
 import menusRouter from './routes/menu.routes.js';
 import reservasRouter from './routes/reserva.routes.js';
@@ -22,6 +24,9 @@ app.use(express.static(path.join(__dirname, '../public')));
 // Aula 18: PUG como view engine
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
+
+// Aula 17: documentação Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get('/', (req, res) => {
   res.status(200).json({
