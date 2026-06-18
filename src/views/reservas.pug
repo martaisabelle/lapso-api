@@ -12,6 +12,10 @@ block content
             span.reserva-id= 'Reserva ' + reserva.id.toLowerCase()
           h3= reserva.nomeCliente
           p
+            strong Menu:
+            |  
+            span= reserva.nomeMenu
+          p
             strong Data:
             |  
             span= reserva.data + ' as ' + reserva.horario
@@ -26,5 +30,7 @@ block content
               strong Restricoes:
               |  
               span= reserva.restricoes
+          p.total
+            strong= 'R$ ' + (reserva.valorTotal || 0).toLocaleString('pt-BR')
     else
       p.vazio Nenhuma reserva registrada.

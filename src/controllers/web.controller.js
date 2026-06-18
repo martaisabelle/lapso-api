@@ -9,7 +9,6 @@ class WebController {
   static async listMenusPage(req, res, next) {
     try {
       const menus = await MenuService.getAll();
-      // res.render() renderiza o template PUG com os dados passados
       res.render('menus', {
         title: 'Cardápio — Lapso',
         menus,
@@ -22,9 +21,27 @@ class WebController {
   static async listReservasPage(req, res, next) {
     try {
       const reservas = await ReservaService.getAll();
+
+      // Busca o menu de cada reserva e calcula o valor total
+      const reservasComMenu = await Promise.all(
+        reservas.map(async (reserva) => {
+          try {
+            const menu = await MenuService.getById(reserva.menuId.toString());
+            const precoBase = menu.preco * reserva.numeroPessoas;
+            const precoHarmonizacao = reserva.harmonizacao && menu.precoHarmonizacao
+              ? menu.precoHarmonizacao * reserva.numeroPessoas
+              : 0;
+            const valorTotal = precoBase + precoHarmonizacao;
+            return { ...reserva.toObject(), nomeMenu: menu.nome, tipoMenu: menu.tipo, valorTotal };
+          } catch {
+            return { ...reserva.toObject(), nomeMenu: 'Menu não encontrado', valorTotal: 0 };
+          }
+        })
+      );
+
       res.render('reservas', {
         title: 'Reservas — Lapso',
-        reservas,
+        reservas: reservasComMenu,
       });
     } catch (error) {
       next(error);
