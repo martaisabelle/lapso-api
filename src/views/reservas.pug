@@ -9,7 +9,7 @@ block content
         div.reserva-card
           div.reserva-topo
             span.status(class=reserva.status === 'confirmada' ? 'confirmada' : 'cancelada')= reserva.status
-            span.reserva-id= 'Reserva ' + reserva.id
+            span.reserva-id= 'Reserva ' + reserva.id.toLowerCase()
           h3= reserva.nomeCliente
           p
             strong Data:
