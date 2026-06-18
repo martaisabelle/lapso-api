@@ -23,11 +23,9 @@ class WebController {
         reservas.map(async (reserva) => {
           try {
             const menu = await MenuService.getById(reserva.menuId.toString());
-            const precoBase = menu.preco * reserva.numeroPessoas;
-            const precoHarmonizacao = reserva.harmonizacao && menu.precoHarmonizacao
+            const valorTotal = reserva.harmonizacao && menu.precoHarmonizacao
               ? menu.precoHarmonizacao * reserva.numeroPessoas
-              : 0;
-            const valorTotal = precoBase + precoHarmonizacao;
+              : menu.preco * reserva.numeroPessoas;
             return { ...reserva, nomeMenu: menu.nome, tipoMenu: menu.tipo, valorTotal };
           } catch {
             return { ...reserva, nomeMenu: 'Menu não encontrado', valorTotal: 0 };
