@@ -1,7 +1,4 @@
 // Aula 18: WebController
-// Reutiliza os mesmos Services da API JSON para alimentar as views PUG
-// Demonstra o poder da arquitetura em camadas:
-// a lógica de negócio não muda, só a forma de resposta (JSON ou HTML)
 import MenuService from '../services/menu.service.js';
 import ReservaService from '../services/reserva.service.js';
 
@@ -22,7 +19,6 @@ class WebController {
     try {
       const reservas = await ReservaService.getAll();
 
-      // Busca o menu de cada reserva e calcula o valor total
       const reservasComMenu = await Promise.all(
         reservas.map(async (reserva) => {
           try {
@@ -32,9 +28,9 @@ class WebController {
               ? menu.precoHarmonizacao * reserva.numeroPessoas
               : 0;
             const valorTotal = precoBase + precoHarmonizacao;
-            return { ...reserva.toObject(), nomeMenu: menu.nome, tipoMenu: menu.tipo, valorTotal };
+            return { ...reserva, nomeMenu: menu.nome, tipoMenu: menu.tipo, valorTotal };
           } catch {
-            return { ...reserva.toObject(), nomeMenu: 'Menu não encontrado', valorTotal: 0 };
+            return { ...reserva, nomeMenu: 'Menu não encontrado', valorTotal: 0 };
           }
         })
       );
