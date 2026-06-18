@@ -1,0 +1,227 @@
+### ============================================
+### LAPSO API — Roteiro de Apresentação
+### ============================================
+
+@baseUrl = https://lapso-api.onrender.com
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzMwMTEyOGYyMjBkMGQ3YWVkZGY4MiIsImVtYWlsIjoiYWRtaW5AbGFwc28uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgxNzU5NjA5LCJleHAiOjE3ODE3NjMyMDl9.-rEUGiDL1EtoK7DW5f9yr4r0eOYxmWPCcuP9sG8xFVU
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzM3ZDdjOTBiZDgxYjcwNzBhZTI2ZiIsImVtYWlsIjoidXNlckBsYXBzby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4MTc1OTYzMCwiZXhwIjoxNzgxNzYzMjMwfQ.L8X_W5lOIW-ciIKo3fz_Oop4kjLVvyM5p_6XrUIV7TM
+@menuDegustacaoId = 6a3380c4c2544069758ef83e
+@menuExecutivoId = 6a33033e70adbcdce42fc186
+@reservaId = 6a33815bc2544069758ef83f
+
+### ============================================
+### 1. AUTENTICAÇÃO
+### ============================================
+
+### 1.1 REGISTRAR ADMIN
+### Cria o usuário administrador (role: admin)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nome": "Admin Lapso",
+  "email": "admin@lapso.com",
+  "senha": "admin123",
+  "role": "admin"
+}
+
+###
+
+### 1.2 REGISTRAR USUÁRIO COMUM
+### Cria um usuário sem permissões de admin (role: user)
+POST {{baseUrl}}/api/auth/register
+Content-Type: application/json
+
+{
+  "nome": "Usuario Comum",
+  "email": "user@lapso.com",
+  "senha": "user123",
+  "role": "user"
+}
+
+###
+
+### 1.3 LOGIN ADMIN
+### Retorna token JWT do admin — atualiza @adminToken se expirar
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin@lapso.com",
+  "senha": "admin123"
+}
+
+###
+
+### 1.4 LOGIN USUÁRIO COMUM
+### Retorna token JWT do user — atualiza @userToken se expirar
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@lapso.com",
+  "senha": "user123"
+}
+
+###
+
+### ============================================
+### 2. MENUS — ROTAS PÚBLICAS (sem token)
+### ============================================
+
+### 2.1 LISTAR TODOS OS MENUS
+### Rota pública — retorna degustacao e executivo
+GET {{baseUrl}}/api/menus
+
+###
+
+### 2.2 BUSCAR MENU DEGUSTACAO POR ID
+### Rota pública — Menu: Lapso de Cerrado (degustacao)
+GET {{baseUrl}}/api/menus/{{menuDegustacaoId}}
+
+###
+
+### 2.3 BUSCAR MENU EXECUTIVO POR ID
+### Rota pública — Menu: Raiz (executivo, seg-sex)
+GET {{baseUrl}}/api/menus/{{menuExecutivoId}}
+
+###
+
+### ============================================
+### 3. MENUS — ROTAS PROTEGIDAS (admin)
+### ============================================
+
+### 3.1 CRIAR MENU DEGUSTACAO
+### Exige token admin — cria novo menu degustacao
+POST {{baseUrl}}/api/menus
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "nome": "Novo Menu Degustacao",
+  "tipo": "degustacao",
+  "tema": "Sabores do Brasil profundo",
+  "numeroCursos": 10,
+  "temporada": "verao",
+  "preco": 850,
+  "precoHarmonizacao": 1400
+}
+
+###
+
+### 3.2 ATUALIZAR MENU DEGUSTACAO
+### Exige token admin — atualiza preco do Lapso de Cerrado
+PUT {{baseUrl}}/api/menus/{{menuDegustacaoId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "preco": 1050
+}
+
+###
+
+### 3.3 DELETAR MENU
+### Exige token admin — deleta o menu criado em 3.1
+### Substitua o ID pelo retornado na requisicao 3.1
+DELETE {{baseUrl}}/api/menus/{{menuDegustacaoId}}
+Authorization: Bearer {{adminToken}}
+
+###
+
+### ============================================
+### 4. RESERVAS — ROTAS PÚBLICAS (sem token)
+### ============================================
+
+### 4.1 LISTAR TODAS AS RESERVAS
+### Rota pública — retorna todas as reservas
+GET {{baseUrl}}/api/reservas
+
+###
+
+### 4.2 BUSCAR RESERVA POR ID
+### Rota pública — Reserva da Ana Lima
+GET {{baseUrl}}/api/reservas/{{reservaId}}
+
+###
+
+### ============================================
+### 5. RESERVAS — ROTAS PROTEGIDAS (admin)
+### ============================================
+
+### 5.1 CRIAR RESERVA
+### Exige token admin — reserva para menu degustacao
+### Menu degustacao nao tem restricao de dia da semana
+POST {{baseUrl}}/api/reservas
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "nomeCliente": "Carlos Souza",
+  "email": "carlos@email.com",
+  "telefone": "(11) 98888-1111",
+  "data": "2026-09-20",
+  "horario": "19:00",
+  "numeroPessoas": 4,
+  "menuId": "{{menuDegustacaoId}}",
+  "harmonizacao": false
+}
+
+###
+
+### 5.2 ATUALIZAR RESERVA
+### Exige token admin — cancela a reserva da Ana Lima
+PUT {{baseUrl}}/api/reservas/{{reservaId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "status": "cancelada"
+}
+
+###
+
+### 5.3 DELETAR RESERVA
+### Exige token admin — deleta a reserva criada em 5.1
+### Substitua o ID pelo retornado na requisicao 5.1
+DELETE {{baseUrl}}/api/reservas/{{reservaId}}
+Authorization: Bearer {{adminToken}}
+
+###
+
+### ============================================
+### 6. TESTES DE SEGURANÇA — RBAC e JWT
+### ============================================
+
+### 6.1 TESTE 401 — POST SEM TOKEN
+### Deve retornar 401 Unauthorized
+### Prova que rotas protegidas bloqueiam sem autenticacao
+POST {{baseUrl}}/api/menus
+Content-Type: application/json
+
+{
+  "nome": "Teste sem token",
+  "tipo": "executivo",
+  "tema": "Teste",
+  "numeroCursos": 3,
+  "temporada": "verao",
+  "preco": 100
+}
+
+###
+
+### 6.2 TESTE 403 — TOKEN DE USER COMUM
+### Deve retornar 403 Forbidden
+### Prova que RBAC bloqueia usuario sem role admin
+POST {{baseUrl}}/api/menus
+Content-Type: application/json
+Authorization: Bearer {{userToken}}
+
+{
+  "nome": "Teste user comum",
+  "tipo": "executivo",
+  "tema": "Teste",
+  "numeroCursos": 3,
+  "temporada": "verao",
+  "preco": 100
+}
