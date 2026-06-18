@@ -3,8 +3,8 @@
 ### ============================================
 
 @baseUrl = https://lapso-api.onrender.com
-@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzMwMTEyOGYyMjBkMGQ3YWVkZGY4MiIsImVtYWlsIjoiYWRtaW5AbGFwc28uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgxNzU5NjA5LCJleHAiOjE3ODE3NjMyMDl9.-rEUGiDL1EtoK7DW5f9yr4r0eOYxmWPCcuP9sG8xFVU
-@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzM3ZDdjOTBiZDgxYjcwNzBhZTI2ZiIsImVtYWlsIjoidXNlckBsYXBzby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4MTc1OTYzMCwiZXhwIjoxNzgxNzYzMjMwfQ.L8X_W5lOIW-ciIKo3fz_Oop4kjLVvyM5p_6XrUIV7TM
+@adminToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzMwMTEyOGYyMjBkMGQ3YWVkZGY4MiIsImVtYWlsIjoiYWRtaW5AbGFwc28uY29tIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzgxODEzNjkwLCJleHAiOjE3ODQ0MDU2OTB9.du8YO_QWo853upd3su2VNFQOiwezoOBwq19Ku600mQ4
+@userToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjZhMzM3ZDdjOTBiZDgxYjcwNzBhZTI2ZiIsImVtYWlsIjoidXNlckBsYXBzby5jb20iLCJyb2xlIjoidXNlciIsImlhdCI6MTc4MTgxMzcwMywiZXhwIjoxNzg0NDA1NzAzfQ.aNo0QQfiQ2Qgbg9fjskCewRXTL7S8r1F-C7o8MvfnEY
 @menuDegustacaoId = 6a3380c4c2544069758ef83e
 @menuExecutivoId = 6a33033e70adbcdce42fc186
 @reservaId = 6a33815bc2544069758ef83f
@@ -42,7 +42,7 @@ Content-Type: application/json
 ###
 
 ### 1.3 LOGIN ADMIN
-### Retorna token JWT do admin — atualiza @adminToken se expirar
+### Retorna token JWT do admin — tokens expiram em 30 dias
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
@@ -54,7 +54,7 @@ Content-Type: application/json
 ###
 
 ### 1.4 LOGIN USUÁRIO COMUM
-### Retorna token JWT do user — atualiza @userToken se expirar
+### Retorna token JWT do user — tokens expiram em 30 dias
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
@@ -92,7 +92,7 @@ GET {{baseUrl}}/api/menus/{{menuExecutivoId}}
 ### ============================================
 
 ### 3.1 CRIAR MENU DEGUSTACAO
-### Exige token admin — cria novo menu degustacao
+### Exige token admin
 POST {{baseUrl}}/api/menus
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
@@ -122,8 +122,8 @@ Authorization: Bearer {{adminToken}}
 ###
 
 ### 3.3 DELETAR MENU
-### Exige token admin — deleta o menu criado em 3.1
-### Substitua o ID pelo retornado na requisicao 3.1
+### Exige token admin
+### Atenção: so deleta se nao tiver reservas vinculadas
 DELETE {{baseUrl}}/api/menus/{{menuDegustacaoId}}
 Authorization: Bearer {{adminToken}}
 
@@ -182,8 +182,7 @@ Authorization: Bearer {{adminToken}}
 ###
 
 ### 5.3 DELETAR RESERVA
-### Exige token admin — deleta a reserva criada em 5.1
-### Substitua o ID pelo retornado na requisicao 5.1
+### Exige token admin
 DELETE {{baseUrl}}/api/reservas/{{reservaId}}
 Authorization: Bearer {{adminToken}}
 
