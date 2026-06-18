@@ -1,5 +1,6 @@
 // Aula 13: validators/ define O QUE validar — específico para reservas
 import { body, param } from 'express-validator';
+import mongoose from 'mongoose';
 
 export const createReservaValidation = [
   body('nomeCliente')
@@ -26,7 +27,9 @@ export const createReservaValidation = [
     .isInt({ min: 1, max: 12 }).withMessage('O número de pessoas deve ser entre 1 e 12.'),
 
   body('menuId')
-    .isInt({ min: 1 }).withMessage('O menuId deve ser um número inteiro positivo.'),
+    .notEmpty().withMessage('O menuId é obrigatório.')
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage('O menuId deve ser um ID válido.'),
 
   body('harmonizacao')
     .optional()
@@ -39,5 +42,6 @@ export const createReservaValidation = [
 
 export const reservaIdValidation = [
   param('id')
-    .isInt({ min: 1 }).withMessage('O ID deve ser um número inteiro positivo.'),
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage('O ID deve ser um MongoDB ObjectId válido.'),
 ];
