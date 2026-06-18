@@ -19,12 +19,12 @@ block content
           div.menu-preco
             p
               | R$ 
-              strong= menu.preco.toLocaleString('pt-BR')
+              strong= (menu.preco || 0).toLocaleString('pt-BR')
               |  por pessoa
             if menu.precoHarmonizacao
               p.harmonizacao
                 | Com harmonização: R$ 
-                strong= menu.precoHarmonizacao.toLocaleString('pt-BR')
+                strong= (menu.precoHarmonizacao || 0).toLocaleString('pt-BR')
           if menu.etapas && menu.etapas.length > 0
             details
               summary Ver etapas
