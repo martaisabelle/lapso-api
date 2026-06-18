@@ -1,5 +1,6 @@
 // Aula 13: validators/ define O QUE validar — específico para cada entidade
 import { body, param } from 'express-validator';
+import mongoose from 'mongoose';
 
 export const createMenuValidation = [
   body('tipo')
@@ -31,5 +32,6 @@ export const createMenuValidation = [
 
 export const menuIdValidation = [
   param('id')
-    .isInt({ min: 1 }).withMessage('O ID deve ser um número inteiro positivo.'),
+    .custom((value) => mongoose.Types.ObjectId.isValid(value))
+    .withMessage('O ID deve ser um MongoDB ObjectId válido.'),
 ];
