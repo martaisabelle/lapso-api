@@ -8,13 +8,8 @@
 @menuDegustacaoId = 6a3380c4c2544069758ef83e
 @menuExecutivoId = 6a33033e70adbcdce42fc186
 @reservaAnaLimaId = 6a33815bc2544069758ef83f
-@reservaMarcoId = PREENCHER_APOS_CRIAR
-@reservaJoaoId = PREENCHER_APOS_CRIAR
-
-### ============================================
-### NOTA: @baseUrl está em localhost para a apresentação
-### Trocar para https://lapso-api.onrender.com se quiser mostrar produção
-### ============================================
+@reservaMarcoId = 6a34932826303c63ac164031
+@reservaJoaoId = 6a34933c26303c63ac164032
 
 ### ============================================
 ### 1. AUTENTICAÇÃO
@@ -47,7 +42,7 @@ Content-Type: application/json
 ###
 
 ### 1.3 LOGIN ADMIN
-### Tokens duram 30 dias — provavelmente não precisa refazer
+### Tokens já estão preenchidos acima — só executa se expirar
 POST {{baseUrl}}/api/auth/login
 Content-Type: application/json
 
@@ -106,8 +101,8 @@ Authorization: Bearer {{adminToken}}
 ###
 
 ### ============================================
-### 4. RESERVAS — DADO PRÉ-EXISTENTE (Ana Lima)
-### Usado só para leitura — NÃO deletar
+### 4. RESERVA PRÉ-EXISTENTE — Ana Lima
+### CRUD parcial: Read + Update (sem Delete)
 ### ============================================
 
 ### 4.1 LISTAR TODAS AS RESERVAS
@@ -118,6 +113,18 @@ GET {{baseUrl}}/api/reservas
 ### 4.2 BUSCAR RESERVA DA ANA LIMA
 ### Menu degustacao + harmonização — R$ 3.300
 GET {{baseUrl}}/api/reservas/{{reservaAnaLimaId}}
+
+###
+
+### 4.3 ATUALIZAR RESERVA DA ANA LIMA
+### Muda o número de pessoas de 2 para 3
+PUT {{baseUrl}}/api/reservas/{{reservaAnaLimaId}}
+Content-Type: application/json
+Authorization: Bearer {{adminToken}}
+
+{
+  "numeroPessoas": 3
+}
 
 ###
 
@@ -145,7 +152,6 @@ Authorization: Bearer {{adminToken}}
 ###
 
 ### 5.2 BUSCAR RESERVA DO MARCO
-### Copie o ID retornado em 5.1 e atualize @reservaMarcoId
 GET {{baseUrl}}/api/reservas/{{reservaMarcoId}}
 
 ###
@@ -173,7 +179,6 @@ Authorization: Bearer {{adminToken}}
 
 ### 6.1 CRIAR RESERVA — João Nakamura
 ### 5 pessoas, sem harmonização (executivo não tem)
-### Atenção: data deve ser dia de semana (seg-sex)
 POST {{baseUrl}}/api/reservas
 Content-Type: application/json
 Authorization: Bearer {{adminToken}}
@@ -192,7 +197,6 @@ Authorization: Bearer {{adminToken}}
 ###
 
 ### 6.2 BUSCAR RESERVA DO JOÃO
-### Copie o ID retornado em 6.1 e atualize @reservaJoaoId
 GET {{baseUrl}}/api/reservas/{{reservaJoaoId}}
 
 ###
