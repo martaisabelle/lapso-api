@@ -15,7 +15,7 @@ class MenuController {
 
   static async getById(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
+      const { id } = req.params;
       const menu = await MenuService.getById(id);
       res.status(200).json(menu);
     } catch (error) {
@@ -34,7 +34,7 @@ class MenuController {
 
   static async update(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
+      const { id } = req.params;
       const menuAtualizado = await MenuService.update(id, req.body);
       res.status(200).json({ sucesso: true, menu: menuAtualizado });
     } catch (error) {
@@ -44,7 +44,7 @@ class MenuController {
 
   static async delete(req, res, next) {
     try {
-      const id = parseInt(req.params.id);
+      const { id } = req.params;
       const resultado = await MenuService.delete(id);
       res.status(200).json({ sucesso: true, ...resultado });
     } catch (error) {
