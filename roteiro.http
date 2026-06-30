@@ -252,3 +252,17 @@ Authorization: Bearer {{userToken}}
   "temporada": "verao",
   "preco": 100
 }
+
+### LIMPEZA — deletar duplicados
+DELETE {{baseUrl}}/api/reservas/6a3491df37047bc1f40f8442
+Authorization: Bearer {{adminToken}}
+
+###
+
+DELETE {{baseUrl}}/api/reservas/6a3492bf26303c63ac164030
+Authorization: Bearer {{adminToken}}
+
+###
+
+DELETE {{baseUrl}}/api/reservas/6a43821838220f511e4efd50
+Authorization: Bearer {{adminToken}}
