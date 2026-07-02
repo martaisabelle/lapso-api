@@ -10,6 +10,20 @@ https://lapso-api.onrender.com
 
 https://lapso-api.onrender.com/api-docs
 
+**API (JSON)**
+
+- `https://lapso-api.onrender.com/api/menus`
+- `https://lapso-api.onrender.com/api/menus/:id`
+- `https://lapso-api.onrender.com/api/reservas`
+- `https://lapso-api.onrender.com/api/reservas/:id`
+- `https://lapso-api.onrender.com/api/auth/register`
+- `https://lapso-api.onrender.com/api/auth/login`
+
+**Páginas PUG**
+
+- `https://lapso-api.onrender.com/menus-view`
+- `https://lapso-api.onrender.com/reservas-view`
+
 ## Tecnologias
 
 - Node.js + Express
